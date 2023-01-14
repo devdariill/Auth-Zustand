@@ -11,19 +11,19 @@ export const useIndex = () => {
   return context;
 };
 export const IndexContextProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const login = () => {
-    // generar fetch backend request
-    setUser({ id: 1, name: "Juan", permissions: ["analize"] });
-  };
   const [open, setOpen] = useState(false);
   const handlerOpen = () => {
     setOpen(!open);
   };
+  const [user, setUser] = useState(null);
+  // const login = () => {
+  //   // generar fetch backend request
+  //   setUser({ id: 1, name: "Juan", permissions: ["analize"] });
+  // };
   const logout = () => setUser(null);
   return (
     <IndexContext.Provider
-      value={{ user, setUser, login, logout, open, setOpen, handlerOpen }}
+      value={{ user, setUser, logout, open, setOpen, handlerOpen }}
     >
       {children}
     </IndexContext.Provider>

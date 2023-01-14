@@ -2,7 +2,9 @@ import Rutas from "./Rutas.jsx";
 import { useIndex } from "../context/IndexContext.jsx";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useAuthStore } from "../store/auth.js";
 function Navbar() {
+  const isAuth = useAuthStore((state) => state.isAuth);   
   const openSVG = (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -19,7 +21,7 @@ function Navbar() {
       />
     </svg>
   );
-  const { open, handlerOpen, user, login } = useIndex();
+  const { open, handlerOpen } = useIndex();
   useEffect(() => {
     document.addEventListener("keydown", (event) => {
       if (event.ctrlKey && event.key === " ") {
@@ -37,13 +39,13 @@ function Navbar() {
         <Link to="/" className="py-1">
           Hermes
         </Link>
-        {user ? (
+        {isAuth ? (
           <div className="cursor-pointer block h-6 w-6" onClick={handlerOpen}>
             {openSVG}
           </div>
         ) : (
           <Link
-            to={"/usuarios/login"}
+            to={"/"}
             className="hover:scale-125 transition-transform block text-center py-3 px-5 rounded-lg bg-neutral-800 "
           >
             Login

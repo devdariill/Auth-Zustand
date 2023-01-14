@@ -1,9 +1,11 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useIndex } from "../context/IndexContext";
-export const ProtectRoute = ({ children }) => {
-  const { user } = useIndex();
-  if (!user) {
-    return <Navigate to="/" />;
-  }
+export const ProtectRoute = ({ children, isAllow }) => {
+  // const { user } = useIndex();
+  // if (!user) {
+  //   return <Navigate to="/" />;
+  // }
+
+  if (!isAllow) return <Navigate to="/" />;
+  // return children ? <>children</> : <Outlet />; //FUTURE FIX.
   return children ? children : <Outlet />;
 };

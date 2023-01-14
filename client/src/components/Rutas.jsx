@@ -20,24 +20,33 @@ function Rutas() {
     </svg>
   );
   const { user, login, handlerOpen } = useIndex();
-  const rutas = [
-    { name: "Productos", path: "/productos" },
-    { name: "Ventas", path: "/ventas" },
-    { name: "Compras", path: "/compras" },
-    { name: "Terceros", path: "/terceros" },
-  ];
+  // const RUTAS = [
+  //   { name: "Productos", path: "/productos" },
+  //   { name: "Ventas", path: "/ventas" },
+  //   { name: "Compras", path: "/compras" },
+  //   { name: "Terceros", path: "/terceros" },
+  //   { name: "Login", path: "/login" },
+  // ];
+  const RUTAS = {
+    Productos: "/productos",
+    Ventas: "/ventas",
+    Compras: "/compras",
+    Terceros: "/terceros",
+    Login: "/profile",
+  };
+
   function renderLogin() {
     if (user) {
       return (
         <div className="justify-center items-center flex flex-col  gap-y-3">
-          {rutas.map((ruta, i) => (
+          {Object.entries(RUTAS).firEach(([name,key], i) => (
             <li key={i} className="hover:scale-125 transition-transform">
               <Link
                 onClick={handlerOpen}
-                to={ruta.path}
+                to={key}
                 className=" block text-center py-3 px-5 rounded-lg bg-neutral-800 "
               >
-                {ruta.name}
+                {name}
               </Link>
             </li>
           ))}
@@ -57,10 +66,10 @@ function Rutas() {
       return (
         <li className="hover:scale-125 transition-transform ">
           <Link
-            to={"/usuarios/login"}
+            to="/profile"
             className="block text-center py-3 px-5 rounded-lg bg-neutral-800 "
           >
-            Login
+            Profile
           </Link>
         </li>
       );
