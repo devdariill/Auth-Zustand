@@ -1,9 +1,13 @@
-import Navbar from "../../components/Navbar";
+import Navbar from "../../components/NavbarFilter";
 import { Form, Formik } from "formik";
 import { useUsuarios } from "../context/UsuariosContext";
-import axios from "axios";
+import { useAuthStore } from "../../store/auth.js";
+import {useNavigate} from "react-router-dom";
 function LoginUsuariosForm() {
-  const { usuario, loginUsuario } = useUsuarios();
+  const navigate = useNavigate();
+  const setToken = useAuthStore((state) => state.setToken);
+  const setProfile = useAuthStore((state) => state.setProfile);
+  const { usuario, loginUsuario, profileUsuario } = useUsuarios();
   return (
     <div>
       <Navbar />
@@ -13,22 +17,32 @@ function LoginUsuariosForm() {
           enableReinitialize={true}
           onSubmit={async (values, actions) => {
             try {
-              const nitter = "1233";
-              const tokusu = "ronald";
-              const res1 =
-                await axios.post("/api/usuarios/login",
-                {
-                  nitter,
-                  tokusu,
-                },
-                {
-                  withCredentials: true,                  
-                });
-              console.log("RES1", res1);
+              // const nitter = "1233";
+              // const tokusu = "ronald";
+              // values.nitter = nitter;
+              // values.tokusu = tokusu;
+              // const res1 =
+              //   await axios.post("/api/usuarios/login",
+              //   {
+              //     nitter,
+              //     tokusu,
+              //   },
+              //   {
+              //     withCredentials: true,
+              //   });
+              // console.log("RES1", res1);              
               const res = await loginUsuario(values);
-              localStorage.setItem('token',res.data.token)
+              setToken(res.data.token);
+              // localStorage.setItem("token", res.data.token);
+              const resProfile = await profileUsuario();
+              console.log("resProfile", resProfile);
+              setProfile(resProfile.data);
+              navigate("/profile");
             } catch (error) {
-             console.log("🚀 ~ file: Login.usuarios.jsx:29 ~ onSubmit={ ~ error", error)
+              console.log(
+                "🚀 ~ file: Login.usuarios.jsx:29 ~ onSubmit={ ~ error",
+                error
+              );
             }
             actions.resetForm();
           }}

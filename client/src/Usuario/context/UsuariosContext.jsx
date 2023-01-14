@@ -1,11 +1,5 @@
-import axios from "axios";
 import { useContext, useState, createContext } from "react";
-import {
-  createUsuarioRequest,
-  getUsuarioRequest,
-  updateUsuarioRequest,
-  setCookieiRequest,
-} from "../api/usuarios.api";
+import { getUsuarioRequest, profileRequest } from "../api/usuarios.api";
 export const UsuarioContext = createContext();
 export const useUsuarios = () => {
   const context = useContext(UsuarioContext);
@@ -32,33 +26,17 @@ export const UsuarioContextProvider = ({ children }) => {
     empcod: "",
     tokusu: "",
   });
-  // loadUsuario
-  const createUsuario = async (usuario) => {
-    try {
-      await createUsuarioRequest(usuario);
-    } catch (error) {
-      console.log(
-        "🚀 ~ file: UsuariosContext.jsx:38 ~ createUsuario ~ error",
-        error
-      );
-    }
-  };
   const loginUsuario = async (usuario) => {
     try {
-      const remodelarApi = await axios.get(
-        'http://192.168.1.101:3000/usuarios/setcookie/asd',
-        { withCredentials: true }
-      );
-      console.log("remodelarApi", remodelarApi)
-      localStorage.setItem("token", remodelarApi.data.token);
-      return remodelarApi;
-
-      // const res = await getUsuarioRequest(usuario);
-      // console.log("RES+1",res)
-      // console.log("RES+2",res.data.token)
-      // const token = await setCookieiRequest(res.data.token);
-      // console.log("token", token);
-      // return res;
+      // const remodelarApi = await axios.get(
+      //   "http://192.168.1.101:3000/usuarios/setcookie/asd",
+      //   { withCredentials: true }
+      // );
+      // console.log("remodelarApi", remodelarApi);
+      // localStorage.setItem("token", remodelarApi.data.token);
+      // return remodelarApi;
+      const res = await getUsuarioRequest(usuario);
+      return res;
     } catch (error) {
       console.log(
         "🚀 ~ file: UsuariosContext.jsx:48 ~ loginUsuario ~ error\n",
@@ -66,9 +44,20 @@ export const UsuarioContextProvider = ({ children }) => {
       );
     }
   };
+  const profileUsuario = async () => {
+    try {
+      const res = await profileRequest();
+      return res;
+    } catch (error) {
+      console.log(
+        "🚀 ~ file: UsuariosContext.jsx:56 ~ profileUsuario ~ error",
+        error
+      );
+    }
+  };
   return (
     <UsuarioContext.Provider
-      value={{ usuario, setUsuario, createUsuario, loginUsuario }}
+      value={{ usuario, setUsuario, loginUsuario, profileUsuario }}
     >
       {children}
     </UsuarioContext.Provider>
